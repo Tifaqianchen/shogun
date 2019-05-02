@@ -112,9 +112,10 @@ struct ComputeMMD
 		terms.diag[1]=b_y.diagonal().sum();
 		terms.diag[2]=b_xy.diagonal().sum();
 
-		terms.term[0]=(b_x.sum()-terms.diag[0])/2+terms.diag[0];
-		terms.term[1]=(b_y.sum()-terms.diag[1])/2+terms.diag[1];
-		terms.term[2]=b_xy.sum();
+		// cast to 64 bit to avoid overflows
+		terms.term[0]=(b_x. template cast<float64_t>().sum()-terms.diag[0])/2+terms.diag[0];
+		terms.term[1]=(b_y. template cast<float64_t>().sum()-terms.diag[1])/2+terms.diag[1];
+		terms.term[2]=b_xy. template cast<float64_t>().sum();
 
 		return compute(terms);
 	}
